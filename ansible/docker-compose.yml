@@ -1,0 +1,11 @@
+services:
+  runner:
+    build:
+      context: .
+    container_name: runner
+    volumes:
+      - /home/yuriy/.ssh/id_ed25519:/root/.ssh/id_ed25519:ro
+      - ./ansible.cfg:/ansible/ansible.cfg:ro
+      # - ./playbooks:/ansible/playbooks:ro
+      # - ./inventory.yml:/ansible/inventory.yml:ro
+      - ./:/ansible:ro

@@ -1,0 +1,20 @@
+# main.yml
+- name: Setup hosts
+  import_playbook: playbooks/setup-hosts.yml
+  tags:
+    - setup
+
+- name: Install Docker
+  import_playbook: playbooks/install-docker.yml
+  tags: 
+    - docker
+
+- name: Deploy Prometheus
+  import_playbook: playbooks/install-prometheus.yml
+  tags:
+    - prometheus
+
+- name: Ping test
+  import_playbook: playbooks/ping-hosts.yml
+  tags:
+    - ping

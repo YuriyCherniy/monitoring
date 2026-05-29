@@ -1,0 +1,17 @@
+- name: Install Docker and Docker Compose to all hosts
+  hosts: all
+  become: true
+  vars:
+    docker_edition: ce
+    docker_packages:
+    - "docker-ce=5:29.5.2-1~ubuntu.24.04~noble"
+    - "docker-ce-cli=5:29.5.2-1~ubuntu.24.04~noble"
+    - "docker-ce-rootless-extras=5:29.5.2-1~ubuntu.24.04~noble"
+    docker_compose_package: "docker-compose-plugin=5.1.4-1~ubuntu.24.04~noble"
+    docker_packages_state: present
+    docker_compose_package_state: present
+    docker_users:
+      - "{{ os_user }}"
+  roles:
+    - role: geerlingguy.docker
+

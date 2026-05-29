@@ -1,0 +1,4 @@
+- name: Deploy Prometheus via docker compose
+  hosts: monitoring
+  roles:
+    - role: prometheus

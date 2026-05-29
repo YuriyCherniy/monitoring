@@ -1,0 +1,39 @@
+- name: Ensure prometheus directory exists on host
+  become: true
+  become_user: "{{ os_user }}"
+  ansible.builtin.file:
+    path: "/home/{{ os_user }}/prometheus"
+    state: directory
+    owner: "{{ os_user }}"
+    group: "{{ os_user }}"
+    mode: '755'
+
+- name: Copy docker-compose.yml to host
+  become: true
+  become_user: "{{ os_user }}"
+  ansible.builtin.copy:
+    src: 'docker-compose.yml'
+    dest: "/home/{{ os_user }}/prometheus"
+    owner: "{{ os_user }}"
+    group: "{{ os_user }}"
+    mode: '755'
+
+- name: Copy prometheus.yml to host from Jinja2 templat
+  become: true
+  become_user: "{{ os_user }}"
+  ansible.builtin.template:
+    src: './prometheus.yml.j2'
+    dest: "/home/{{ os_user }}/prometheus/prometheus.yml"
+    owner: "{{ os_user }}"
+    group: "{{ os_user }}"
+    mode: '644'
+
+- name: Run docker-compose.yml
+  become: true
+  become_user: "{{ os_user }}"
+  community.docker.docker_compose_v2:
+    project_src: "/home/{{ os_user }}/prometheus"
+    files:
+      - 'docker-compose.yml'
+    state: present
+    recreate: always
