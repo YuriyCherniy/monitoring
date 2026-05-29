@@ -1,0 +1,7 @@
+#key: user-data
+users:
+  - name: ansible
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - <private ssh key>
