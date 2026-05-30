@@ -6,7 +6,8 @@ FROM python:3.12-slim
 #     chown -R ansible-runner:ansible-runner /home/ansible-runner/.ssh
 RUN apt update && apt install -y openssh-client
 RUN pip install --no-cache-dir ansible==13.7
-RUN ansible-galaxy role install geerlingguy.docker,8.0.0
+RUN ansible-galaxy role install geerlingguy.docker,8.0.0 && \
+    ansible-galaxy collection install prometheus.prometheus:0.30.0
 WORKDIR /ansible
 # USER ansible-runner
 ENTRYPOINT ["ansible-playbook"]

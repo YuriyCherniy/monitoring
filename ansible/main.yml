@@ -1,20 +1,30 @@
-# main.yml
+- name: Group-level fact gathering
+  hosts: all
+  tags:
+    - always
+
 - name: Setup hosts
   import_playbook: playbooks/setup-hosts.yml
   tags:
-    - setup
+    - setup_hosts
 
 - name: Install Docker
   import_playbook: playbooks/install-docker.yml
   tags: 
-    - docker
+    - docker_install
 
 - name: Deploy Prometheus
   import_playbook: playbooks/install-prometheus.yml
   tags:
-    - prometheus
+    - prometheus_deploy
+
+- name: Install node_exporter
+  import_playbook: playbooks/install-node-exporter.yml
+  tags:
+    - node_exporter_deploy
 
 - name: Ping test
   import_playbook: playbooks/ping-hosts.yml
   tags:
-    - ping
+    - ping_test
+

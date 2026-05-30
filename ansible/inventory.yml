@@ -4,15 +4,15 @@ all:
     ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
 
   children:
-    app:
+    app_servers:
       hosts:
-        application:
+        app_server:
           ansible_user: ansible
-          ansible_host: 111.88.156.96
+          ansible_host: 158.160.26.246
           os_user: app
-    monitoring:
+    monitoring_servers:
       hosts:
-        monitoring:
+        monitoring_server:
           ansible_user: ansible
-          ansible_host: 111.88.153.210
+          ansible_host: 158.160.14.79
           os_user: mon
