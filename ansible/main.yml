@@ -14,17 +14,18 @@
     - docker_install
 
 - name: Deploy Prometheus
-  import_playbook: playbooks/install-prometheus.yml
+  import_playbook: playbooks/deploy-prometheus.yml
   tags:
     - prometheus_deploy
 
-- name: Install node_exporter
-  import_playbook: playbooks/install-node-exporter.yml
+- name: Deploy node_exporter
+  import_playbook: playbooks/deploy-node-exporter.yml
   tags:
     - node_exporter_deploy
 
-- name: Ping test
-  import_playbook: playbooks/ping-hosts.yml
+- name: Deploy Grafana
+  import_playbook: playbooks/deploy-grafana.yml
   tags:
-    - ping_test
+    - grafana_deploy
+
 

@@ -1,0 +1,4 @@
+- name: Deploy grafana
+  hosts: monitoring_server
+  roles:
+    - role: grafana

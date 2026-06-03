@@ -1,0 +1,14 @@
+services:
+  grafana:
+    image: grafana/grafana
+    ports:
+    - "3000:3000"
+    volumes:
+      - ./provisioning/datasources/:/etc/grafana/provisioning/datasources/:ro
+      - ./provisioning/dashboards/:/etc/grafana/provisioning/dashboards/:ro
+      - ./dashboards/:/var/lib/grafana/dashboards/:ro
+      - grafana_data:/var/lib/grafana
+    restart: "unless-stopped"
+volumes:
+  grafana_data:
+

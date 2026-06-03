@@ -1,0 +1,65 @@
+- name: Ensure grafana directory exists
+  become: true
+  become_user: "{{ os_user }}"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: "directory"
+    owner: "{{ os_user }}"
+    group: "{{ os_user }}"
+    mode: "755"
+  loop:
+    - "/home/{{ os_user }}/grafana"
+    - "/home/{{ os_user }}/grafana/provisioning"
+    - "/home/{{ os_user }}/grafana/provisioning/datasources"
+    - "/home/{{ os_user }}/grafana/provisioning/dashboards"
+    - "/home/{{ os_user }}/grafana/dashboards"
+
+- name: Copy docker-compose.yml to host
+  become: true
+  become_user: "{{ os_user }}"
+  ansible.builtin.copy:
+    src: "docker-compose.yml"
+    dest: "/home/{{ os_user }}/grafana/"
+    owner: "{{ os_user }}"
+    group: "{{ os_user }}"
+    mode: "644"
+
+- name: Copy dashboards.yml to host
+  become: true
+  become_user: "{{ os_user }}"
+  ansible.builtin.copy:
+    src: "dashboards.yml"
+    dest: "/home/{{ os_user }}/grafana/provisioning/dashboards/dashboards.yml"
+    owner: "{{ os_user }}"
+    group: "{{ os_user }}"
+    mode: "644"
+
+- name: Copy 1860 dashboard to host
+  become: true
+  become_user: "{{ os_user }}"
+  ansible.builtin.copy:
+    src: "1860_rev45.json"
+    dest: "/home/{{ os_user }}/grafana/dashboards/1860_rev45.json"
+    owner: "{{ os_user }}"
+    group: "{{ os_user }}"
+    mode: "644"
+
+- name: Copy datasources.yml from Jinja2 template
+  become: true
+  become_user: "{{ os_user }}"
+  ansible.builtin.template:
+    src: "datasources.yml.j2"
+    dest: "/home/{{ os_user }}/grafana/provisioning/datasources/datasources.yml"
+    owner: "{{ os_user }}"
+    group: "{{ os_user }}"
+    mode: "644"
+
+- name: Run docker-compose.yml
+  become: true
+  become_user: "{{ os_user }}"
+  community.docker.docker_compose_v2:
+    project_src: "/home/{{ os_user }}/grafana/"
+    files:
+      - "docker-compose.yml"
+    state: present
+    recreate: always
