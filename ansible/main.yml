@@ -13,6 +13,16 @@
   tags: 
     - docker_install
 
+- name: Deploy Docker Network
+  import_playbook: playbooks/deploy-docker-network.yml
+  tags:
+    - docker_network_deploy
+
+- name: Deploy Nginx
+  import_playbook: playbooks/deploy-nginx.yml
+  tags:
+    - nginx_deploy 
+
 - name: Deploy Prometheus
   import_playbook: playbooks/deploy-prometheus.yml
   tags:

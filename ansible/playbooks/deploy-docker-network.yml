@@ -1,0 +1,10 @@
+- name: Deploy Docker network for monitoring stack
+  hosts: monitoring_servers
+  become: true
+  become_user: "{{ os_user }}"
+  tasks:
+    - name: Create monitoring Docker network
+      community.docker.docker_network:
+        name: monitoring
+        driver: bridge
+        state: present

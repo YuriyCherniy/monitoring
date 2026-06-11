@@ -11,6 +11,11 @@ services:
       - ./dashboards/:/var/lib/grafana/dashboards/:ro
       - grafana_data:/var/lib/grafana
     restart: "unless-stopped"
+    networks:
+      - monitoring
 volumes:
   grafana_data:
+networks:
+  monitoring:
+    external: true
 

@@ -1,0 +1,13 @@
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+    - "80:80"
+    restart: "unless-stopped"
+    volumes:
+      - ./nginx_conf/:/etc/nginx/conf.d/:ro
+    networks:
+      - monitoring
+networks:
+  monitoring:
+    external: true

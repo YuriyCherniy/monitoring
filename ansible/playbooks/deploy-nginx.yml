@@ -1,0 +1,4 @@
+- name: Deploy nginx
+  hosts: monitoring_server
+  roles:
+    - role: nginx

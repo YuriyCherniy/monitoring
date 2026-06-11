@@ -8,13 +8,13 @@ all:
       hosts:
         app_server:
           ansible_user: ansible
-          ansible_host: 103.76.55.249
+          ansible_host: 130.193.41.231
           ansible_private_ip: 10.129.0.26
           os_user: app
     monitoring_servers:
       hosts:
         monitoring_server:
           ansible_user: ansible
-          ansible_host: 111.88.149.151
+          ansible_host: 158.160.81.139
           ansible_private_ip: 10.129.0.22
           os_user: mon
