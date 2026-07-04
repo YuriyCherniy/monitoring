@@ -12,9 +12,9 @@
       community.crypto.openssl_csr:
         path: "/etc/ssl/private/monitoring_server.csr"
         privatekey_path: "/etc/ssl/private/monitoring_server.key"
-        common_name: "{{ ansible_default_ipv4.address }}"
+        common_name: "{{ ansible_facts.default_ipv4.address }}"
         subject_alt_name:
-          - "IP:{{ ansible_default_ipv4.address }}"
+          - "IP:{{ ansible_facts.default_ipv4.address }}"
     
     - name: Generate self-signed certificate
       community.crypto.x509_certificate:
