@@ -25,14 +25,21 @@ docker compose run --rm runner ansible-playbook main.yml --tags setup_hosts --as
 ## Before deploying the project, you must create a `vault.yml` file with secrets. Run the following command (it will prompt for a password and open the Vim editor):
 
 ```bash
-docker compose run --rm runner ansible-vault create ./group_vars/all/vault.yml
+docker compose run --rm runner ansible-vault create 
 ```
 
 **Example of `vault.yml` content:**
 ```yaml
 vault_grafana_admin_user: <login>
 vault_grafana_admin_password: "<password>"
+
+vault_prometheus_admin_user: <login>
+vault_prometheus_admin_password: "<password>"
+
+vault_node_exporter_admin_user: <login>
+vault_node_exporter_admin_password: "<password>"
 ```
+Or you can use the existing ./group_vars/all/vault.yml file with lohin: admin and password: 0000 for all services.
 
 ## Requirements
 

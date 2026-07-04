@@ -5,7 +5,41 @@
     - name: Update apt cashe
       ansible.builtin.apt:
         update_cache: yes
-        cache_valid_time: 3600
+        cache_valid_time: "3600"
     - name: Upgrade packages
       ansible.builtin.apt:
         upgrade: full
+
+- name: Setup UFW on all hosts
+  hosts: all
+  become: true
+  tasks:
+    - name: Reset UFW to default settings
+      ansible.builtin.ufw:
+        state: reset
+
+    - name: Allow 22, 80, and 443/tcp connections
+      ansible.builtin.ufw:
+        rule: allow
+        port: "{{ item.port }}"
+      loop:
+        - { port: 22 }
+        - { port: 80 }
+        - { port: 443 }
+
+    - name: Allow 9100/tcp connections only for app_server
+      ansible.builtin.ufw:
+        rule: allow
+        port: "9100"
+      when: inventory_hostname == "app_server"
+
+    - name: Allow access from Docker Prometheus container to node_exporter on mnitoring_server(localhost)
+      ansible.builtin.ufw:
+        rule: allow
+        port: "9100"
+        from_ip: "172.16.0.0/12"
+      when: inventory_hostname == "monitoring_server"
+
+    - name: Enable UFW
+      ansible.builtin.ufw:
+        state: enabled

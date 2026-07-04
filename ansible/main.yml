@@ -18,6 +18,11 @@
   tags:
     - docker_network_deploy
 
+- name: Generate self-signed SSL certificate
+  import_playbook: playbooks/generate-selfsigned-ssl.yml
+  tags:
+    - ssl_generate
+
 - name: Deploy Nginx
   import_playbook: playbooks/deploy-nginx.yml
   tags:

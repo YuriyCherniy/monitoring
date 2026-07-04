@@ -7,6 +7,8 @@ services:
       - prometheus_data:/prometheus
     networks:
       - monitoring
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 volumes:
   prometheus_data:
 networks:

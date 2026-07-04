@@ -4,3 +4,5 @@ grafana_admin_password: "{{ vault_grafana_admin_password }}"
 prometheus_admin_user: "{{ vault_prometheus_admin_user }}"
 prometheus_admin_password: "{{ vault_prometheus_admin_password }}"
 
+node_exporter_admin_user: "{{ vault_node_exporter_admin_user }}"
+node_exporter_admin_password: "{{ vault_node_exporter_admin_password }}"

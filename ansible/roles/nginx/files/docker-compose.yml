@@ -3,9 +3,12 @@ services:
     image: nginx:latest
     ports:
     - "80:80"
+    - "443:443"
     restart: "unless-stopped"
     volumes:
       - ./nginx_conf/:/etc/nginx/conf.d/:ro
+      - /etc/ssl/certs/monitoring_server.crt:/etc/ssl/certs/monitoring_server.crt:ro
+      - /etc/ssl/private/monitoring_server.key:/etc/ssl/private/monitoring_server.key:ro
     networks:
       - monitoring
 networks:
