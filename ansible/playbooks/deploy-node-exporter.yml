@@ -1,5 +1,62 @@
 - name: Install node_exporter
   hosts: all
   become: true
+  pre_tasks:
+    - name: Prepare node_exporter directories and user
+      block:
+        - name: Create node_exporter system user (same as role default)
+          ansible.builtin.user:
+            name: node-exp
+            system: true
+            create_home: false
+            shell: /usr/sbin/nologin
+            group: node-exp
+            
+        - name: Create node_exporter directories (same as role default)
+          ansible.builtin.file:
+            path: "/etc/node_exporter"
+            state: directory
+            owner: "node-exp"
+            group: "node-exp"
+            mode: "0755"
+      when: inventory_hostname in groups['app_servers']
+      
+    - name: Generate selfsigned SSL certificate for app server
+      block:
+        - name: Generate private key
+          community.crypto.openssl_privatekey:
+            path: "/etc/node_exporter/node_exporter.key"
+            size: "2048"
+            type: RSA
+      
+        - name: Generate CSR
+          community.crypto.openssl_csr:
+            path: "/etc/node_exporter/node_exporter.csr"
+            privatekey_path: "/etc/node_exporter/node_exporter.key"
+            common_name: "{{ ansible_facts.default_ipv4.address }}"
+            subject_alt_name:
+              - "IP:{{ ansible_facts.default_ipv4.address }}"
+        
+        - name: Generate self-signed certificate
+          community.crypto.x509_certificate:
+            path: "/etc/node_exporter/node_exporter.crt"
+            csr_path: "/etc/node_exporter/node_exporter.csr"
+            privatekey_path: "/etc/node_exporter/node_exporter.key"
+            provider: selfsigned
+            selfsigned_not_after: "+365d"
+            force: true
+
+        - name: Change ownership of the certificate and key files
+          ansible.builtin.file:
+            path: "{{ item }}"
+            owner: "node-exp"
+            group: "node-exp"
+            mode: "0600"
+          loop:
+            - "/etc/node_exporter/node_exporter.crt"
+            - "/etc/node_exporter/node_exporter.key"
+
+      when: inventory_hostname in groups['app_servers']
+
   roles:
     - prometheus.prometheus.node_exporter

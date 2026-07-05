@@ -1,7 +1,22 @@
 #key: user-data
+#users:
+#  - name: ansible
+#    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+#    shell: /bin/bash
+#    ssh_authorized_keys:
+#      - <public ssh key>
+
+#cloud-config
 users:
   - name: ansible
-    sudo: 'ALL=(ALL) NOPASSWD:ALL'
     shell: /bin/bash
+    lock_passwd: true
     ssh_authorized_keys:
-      - <private ssh key>
+      - <public ssh key>
+
+write_files:
+  - path: /etc/sudoers.d/ansible
+    content: |
+      ansible ALL=(ALL, !root) NOPASSWD: ALL
+      ansible ALL=(ALL) !ALL
+    permissions: '0440'

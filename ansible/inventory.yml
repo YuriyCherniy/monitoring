@@ -8,11 +8,11 @@ all:
       hosts:
         app_server:
           ansible_user: ansible
-          ansible_host: 89.169.164.136
+          ansible_host: 111.88.146.229
           os_user: app
     monitoring_servers:
       hosts:
         monitoring_server:
           ansible_user: ansible
-          ansible_host: 37.230.168.77
+          ansible_host: 89.169.186.122
           os_user: mon
