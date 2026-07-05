@@ -1,4 +1,12 @@
-## In this project, Ansible is run within a Docker container. You can run it using Docker Compose.
+# Monitoring Stack with Ansible
+
+To start this project, you need two hosts with Ubuntu. The first one must have 1 GB RAM (app server), and the second one must have 2 GB RAM (monitoring server). On both hosts, an ansible user must be configured. If the hosts are created by a cloud provider, you can configure the ansible user with the example file .vm-config.yml.example.
+
+Before deployment, update the inventory `ansible/inventory.yml` with your real host IP addresses.
+
+All commands below should be run from the `ansible/` directory.
+
+## In this project, Ansible runs inside a Docker container. You can run it using Docker Compose.
 
 Examples:
 
@@ -39,8 +47,4 @@ vault_prometheus_admin_password: "<password>"
 vault_node_exporter_admin_user: <login>
 vault_node_exporter_admin_password: "<password>"
 ```
-Or you can use the existing ./group_vars/all/vault.yml file with lohin: admin and password: 0000 for all services.
-
-## Requirements
-
-- SSH key: `~/.ssh/id_ed25519`
+Or you can use the existing ./group_vars/all/vault.yml file with login: admin and password: 0000 for all services.
