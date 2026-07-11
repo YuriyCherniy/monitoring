@@ -4,13 +4,12 @@
   pre_tasks:
     - name: Prepare node_exporter directories and user
       block:
-        - name: Create node_exporter system user (same as role default)
+        - name: Create node_exporter system user and group (same as role default)
           ansible.builtin.user:
             name: node-exp
             system: true
             create_home: false
             shell: /usr/sbin/nologin
-            group: node-exp
             
         - name: Create node_exporter directories (same as role default)
           ansible.builtin.file:

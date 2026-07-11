@@ -1,10 +1,24 @@
 services:
   nginx:
-    image: nginx:latest
+    image: nginx:1.31.2
+    cpus: 0.5
+    mem_limit: 128m
+    mem_reservation: 64m
     ports:
     - "80:80"
     - "443:443"
-    restart: "unless-stopped"
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     volumes:
       - ./nginx_conf/:/etc/nginx/conf.d/:ro
       - /etc/ssl/certs/monitoring_server.crt:/etc/ssl/certs/monitoring_server.crt:ro

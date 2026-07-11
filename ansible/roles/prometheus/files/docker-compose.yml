@@ -1,7 +1,10 @@
 services:
   prometheus:
-    image: prom/prometheus
-    restart: "unless-stopped"
+    image: prom/prometheus:v3.13.1-busybox
+    cpus: 1.0
+    mem_limit: 512m
+    mem_reservation: 256m
+    restart: unless-stopped
     volumes:
       - ./prometheus_config:/etc/prometheus/:ro
       - prometheus_data:/prometheus
@@ -9,6 +12,17 @@ services:
       - monitoring
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    logging:
+        driver: json-file
+        options:
+          max-size: 10m
+          max-file: 3
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9090/-/healthy"] 
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 volumes:
   prometheus_data:
 networks:

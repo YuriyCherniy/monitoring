@@ -21,7 +21,7 @@
         group: "{{ os_user }}"
         mode: "644"
     
-    - name: Copy prometheus.yml to host from Jinja2 templat
+    - name: Copy prometheus.yml to host from Jinja2 template
       ansible.builtin.template:
         src: "./prometheus.yml.j2"
         dest: "/home/{{ os_user }}/prometheus/prometheus_config/prometheus.yml"

@@ -13,7 +13,7 @@
         - "/home/{{ os_user }}/nginx"
         - "/home/{{ os_user }}/nginx/nginx_conf"
     
-    - name: Copy docker-compose.yml to host
+    - name: Copy docker-compose.yml and monitoring.conf to host
       ansible.builtin.copy:
         src: "{{ item.src }}"
         dest: "/home/{{ os_user }}/nginx/{{ item.dest }}"
@@ -22,7 +22,7 @@
         mode: "644"
       loop:
         - { src: "docker-compose.yml", dest: "docker-compose.yml" }
-        - { src: "prometheus.conf", dest: "nginx_conf/prometheus.conf" }
+        - { src: "monitoring.conf", dest: "nginx_conf/monitoring.conf" }
     
     - name: Create .htpasswd file for Nginx basic authentication
       ansible.builtin.template:
